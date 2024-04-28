@@ -8,7 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useForm } from "react-hook-form";
 import { doApiMethod, API_URL, TOKEN_KEY } from '../servises/apiServices';
-import { useState } from 'react';
 
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -88,8 +87,8 @@ const AlertDialogSlide = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button type='submit' onClick={handleClose}>Agree</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type='submit' onClick={handleClose}>Submit</Button>
           </DialogActions>
         </form>
       </Dialog>

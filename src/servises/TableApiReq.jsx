@@ -1,7 +1,16 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { doApiMethod, doApiGet, API_URL, TOKEN_KEY } from './apiServices'
+import { DataContext } from '../context/DataContext';
+ 
 
 const TableApiReq = () => {
+const { data,setData } = useContext(DataContext);
+
+    const removeEmployeeHere = (_id) => {
+        setData(data.filter(employee => {
+            return employee.id!== _id;
+        }))       
+    };
     // DeleteEmployee API request
     const deleteEmployee = async (id) => {
         const confirmed = window.confirm('Are you sure you want to delete?');
@@ -9,6 +18,7 @@ const TableApiReq = () => {
           return; // Exit if user cancels confirmation
         }
         try {
+            removeEmployeeHere(id);
             const url = API_URL + `employees/${id}`;
             const responseData = await doApiMethod(url, "DELETE");
             // Log response data for debugging
@@ -33,11 +43,15 @@ const TableApiReq = () => {
             console.error("Error fetching data:", error);
         }
     };
-  return (
-    <div>
-
-    </div>
-  )
+    return (
+        null
+      )
 }
 
-export default TableApiReq
+// export {
+//     deleteEmployee,
+//     editEmployee,
+//     TableApiReq  
+// }
+
+ export default TableApiReq
