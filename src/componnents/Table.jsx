@@ -37,8 +37,6 @@ function TablePaginationActions(props) {
     };
 
     const handleNextButtonClick = (event) => {
-        // (page % 2 == 0 ) ? handleLoadMore() : "";
-        // handleLoadMore();
         onPageChange(event, page + 1);
     };
 
@@ -192,13 +190,6 @@ const TableView = () => {
 
                         </TableRow>
                     ))}
-                    {/* check this function
-                     {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={6} />
-                        </TableRow>
-                    )} */}
-
                 </TableBody>
                 <TableFooter>
                     <TableRow>

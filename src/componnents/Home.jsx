@@ -4,7 +4,6 @@ import FormDialog from "./FormDialog"
 import { doApiMethod, doApiGet, API_URL, TOKEN_KEY } from '../servises/apiServices'
 import DataContext from '../context/DataContext'
 import FilterData from './FilterData'
-// import TableApiReq from '../servises/TableApiReq'
 
 const Home = () => {
     const [data, setData] = useState([])
@@ -14,14 +13,6 @@ const Home = () => {
     const [tempData, setTempData] = useState([]);
     const [tempDocAmount, setTempDocAmount] = useState(0);
 
-
-    // get the data from server
-    // Fetch data when component mounts
-    //    if(docAmount === data.length){
-    //     setHasMoreData(false)
-    //     return "full data fetch";
-    //    }  else setHasMoreData(true);
-    // stop request data fetching when getting all the data from server
     const fetchData = async () => {
         try {
             const url = API_URL + `employees/list?page=${page}`;
@@ -120,11 +111,8 @@ const Home = () => {
                     <FilterData/>
                     <FormDialog />
                     <br />
-                    <Table />
-                   
-                  
-                </div>
-                
+                    <Table />                                   
+                </div>               
             </div>
         </DataContext.Provider>
     )

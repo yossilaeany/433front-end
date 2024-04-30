@@ -23,7 +23,6 @@ const FilterData = () => {
             if (choice == "salary") {
                 let temp = employee.salary
                 return temp <= parseInt(searchValue);
-                // return employee.alary == searchValue;    
             }
         })
         setTempDocAmount(newArray.length);
