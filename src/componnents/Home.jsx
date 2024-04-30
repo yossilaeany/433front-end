@@ -3,6 +3,7 @@ import Table from './Table'
 import FormDialog from "./FormDialog"
 import { doApiMethod, doApiGet, API_URL, TOKEN_KEY } from '../servises/apiServices'
 import DataContext from '../context/DataContext'
+import FilterData from './FilterData'
 // import TableApiReq from '../servises/TableApiReq'
 
 const Home = () => {
@@ -10,6 +11,8 @@ const Home = () => {
     const [page, setPage] = useState(1);
     const [hasMoreData, setHasMoreData] = useState(true); // Boolean variable to track if there is more data to fetch
     const [docAmount, setDocAmount] = useState(0);
+    const [tempData, setTempData] = useState([]);
+    const [tempDocAmount, setTempDocAmount] = useState(0);
 
 
     // get the data from server
@@ -31,9 +34,8 @@ const Home = () => {
             // Update data state with new data
             setData(prevData => [...prevData, ...responseData]);
             // Increment page number for the next request
-            console.log(page);
             setPage(page + 1);
-            console.log(responseData);
+            setTempData(responseData); 
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -55,6 +57,7 @@ const Home = () => {
                 // Check if responseData contains the document count
                 if (responseData !== undefined) {
                     setDocAmount(responseData.count);
+                    setTempDocAmount(responseData.count);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -89,9 +92,6 @@ const Home = () => {
             removeEmployeeHere(id);
             const url = API_URL + `employees/${id}`;
             const responseData = await doApiMethod(url, "DELETE");
-            // Log response data for debugging
-            console.log('Response data:', responseData);
-            
             // Check if responseData contains the document count
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -104,8 +104,6 @@ const Home = () => {
         try {
             const url = API_URL + `employees/${id}`;
             const responseData = await doApiMethod(url, "PUT", {});
-            // Log response data for debugging
-            console.log('Response data:', responseData);
             // Check if responseData contains the document count
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -114,15 +112,17 @@ const Home = () => {
 
 
     return (
-        <DataContext.Provider value={{ data,setData, handleLoadMore, docAmount,editEmployee,deleteEmployee }}>
+        <DataContext.Provider value={{ data,setData, handleLoadMore, docAmount,editEmployee,deleteEmployee,tempData, setTempData,tempDocAmount, setTempDocAmount }}>
             {/* <TableApiReq/> */}
             <div className='container-fluid'>
                 <div className='container'>
                     <h1 className='text-center text-primary'>Employees Manegment</h1>
-                    {/* <Table data={data}/> */}
-                    <Table />
-                    <br />
+                    <FilterData/>
                     <FormDialog />
+                    <br />
+                    <Table />
+                   
+                  
                 </div>
                 
             </div>

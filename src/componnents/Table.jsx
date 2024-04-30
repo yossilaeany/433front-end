@@ -90,12 +90,13 @@ TablePaginationActions.propTypes = {
 
 const TableView = () => {
 
-    const { data, handleLoadMore, docAmount,deleteEmployee,editEmployee } = useContext(DataContext);
+    const { tempData,data, handleLoadMore,tempDocAmount, docAmount, deleteEmployee, editEmployee } = useContext(DataContext);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    console.log(tempData);
 
     const rows = [
-        { data }
+        { tempData }
     ]
 
     // create titles for each column
@@ -148,23 +149,24 @@ const TableView = () => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 400 }} aria-label="custom pagination table">
+
+                <TableHead>
+                    <TableRow>
+                        {columns.map((column) => (
+                            <TableCell
+                                key={column.id}
+                                align={column.align}
+                                style={{ minWidth: column.minWidth }}
+                            >
+                                {column.label}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                </TableHead>
                 <TableBody>
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
                     {(rowsPerPage > 0
-                        ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        : data
+                        ? tempData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        : tempData
                     ).map((row) => (
                         <TableRow key={row.id}>
                             {/* todo: check what this do component="th" scope="row"  */}
@@ -180,15 +182,14 @@ const TableView = () => {
                             <TableCell style={{ width: "20%" }} align="center">
                                 {row.salary}
                             </TableCell>
-                            <div className='d-flex gap-2  mt-3'>
-                            {/* Pass row ID for deletion */}
-                            <Button onClick={() => deleteEmployee(row.id)} size="small" variant="outlined" startIcon={<DeleteIcon />}>
-                            </Button>
-                            {/* Pass row ID for edition */}
-                            {/* <Button onClick={() => editEmployee(row.id)} size="small" variant="outlined" startIcon={<EditIcon />}>
-                            </Button> */}
-                            <EditDialog employee={row}/>
+                            <div className='d-flex justify-content-center gap-2 mt-3'>
+                                {/* Pass row ID for deletion */}
+                                <Button onClick={() => deleteEmployee(row.id)} size="small" variant="outlined" startIcon={<DeleteIcon />}>
+                                </Button>
+                                {/* Pass row ID for edition */}
+                                <EditDialog employee={row} />
                             </div>
+
                         </TableRow>
                     ))}
                     {/* check this function
@@ -204,7 +205,7 @@ const TableView = () => {
                         <TablePagination
                             rowsPerPageOptions={[5, 10]}
                             colSpan={3}
-                            count={docAmount}
+                            count={tempDocAmount}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             slotProps={{
